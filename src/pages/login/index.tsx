@@ -1,10 +1,12 @@
 import React from 'react';
 import {VStack, FormControl, Input, Center, Button} from 'native-base';
+import {useNavigate} from 'react-router-native';
 
 const BuildingAFormExample = () => {
   const [formData, setData] = React.useState<any>({});
-  const [errors, setErrors] = React.useState({});
+  const [errors, setErrors] = React.useState<any>({});
   const [otpSent, setOtpSent] = React.useState(false);
+  let navigate = useNavigate();
 
   const validate = () => {
     if (formData?.mobileNumber === undefined) {
@@ -13,10 +15,10 @@ const BuildingAFormExample = () => {
         mobileNumber: 'Mobile number is required',
       });
       return false;
-    } else if (formData?.mobileNumber.length < 3) {
+    } else if (formData?.mobileNumber.length !== 10) {
       setErrors({
         ...errors,
-        mobileNumber: 'Mobile number is too short',
+        mobileNumber: 'Mobile number should be of 10 digits',
       });
       return false;
     } else {
@@ -32,9 +34,13 @@ const BuildingAFormExample = () => {
     validate() ? setOtpSent(true) : console.log('Validation Failed');
   };
 
+  const onVerifyOtp = () => {
+    navigate('/dashboard');
+  };
+
   return (
     <VStack width="90%" mx="3">
-      <FormControl isRequired isInvalid={'mobileNumber' in errors}>
+      <FormControl isRequired isInvalid={errors?.mobileNumber}>
         <FormControl.Label _text={{bold: true}}>
           Mobile Number
         </FormControl.Label>
@@ -44,7 +50,7 @@ const BuildingAFormExample = () => {
           onChangeText={value => setData({...formData, mobileNumber: value})}
         />
 
-        {'mobileNumber' in errors && (
+        {errors?.mobileNumber && (
           <FormControl.ErrorMessage
             _text={{fontSize: 'xs', color: 'error.500', fontWeight: 500}}>
             Please enter a valid mobile number
@@ -70,7 +76,7 @@ const BuildingAFormExample = () => {
       )}
 
       {otpSent ? (
-        <Button onPress={onSubmit} mt="5" colorScheme="cyan">
+        <Button onPress={onVerifyOtp} mt="5" colorScheme="cyan">
           Verify OTP
         </Button>
       ) : (

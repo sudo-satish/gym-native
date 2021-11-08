@@ -9,13 +9,27 @@
  */
 
 import React from 'react';
+import {Text} from 'react-native';
 import {NativeBaseProvider} from 'native-base';
-import LoginPage from './src/pages/login';
+import {NativeRouter, Route, Routes} from 'react-router-native';
+// import LoginPage from './src/pages/login';
+import DashboardPage from './src/pages/dashboard';
+
+const Topics = () => {
+  return <Text>Topics</Text>;
+};
 
 const App = () => {
   return (
     <NativeBaseProvider>
-      <LoginPage />
+      <NativeRouter>
+        <Routes>
+          {/* <Route path="/" element={<LoginPage />} /> */}
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/topics" element={<Topics />} />
+        </Routes>
+      </NativeRouter>
     </NativeBaseProvider>
   );
 };
