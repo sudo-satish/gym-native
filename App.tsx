@@ -14,6 +14,9 @@ import {NativeBaseProvider} from 'native-base';
 import {NativeRouter, Route, Routes} from 'react-router-native';
 // import LoginPage from './src/pages/login';
 import DashboardPage from './src/pages/dashboard';
+import MembersPage from './src/pages/members';
+import TrainersPage from './src/pages/trainers';
+import MembershipPage from './src/pages/membership';
 
 const Topics = () => {
   return <Text>Topics</Text>;
@@ -28,6 +31,9 @@ const App = () => {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/topics" element={<Topics />} />
+          <Route path="/members" element={<MembersPage />} />
+          <Route path="/trainers" element={<TrainersPage />} />
+          <Route path="/member-ship" element={<MembershipPage />} />
         </Routes>
       </NativeRouter>
     </NativeBaseProvider>

@@ -1,127 +1,36 @@
 import {
-  Avatar,
-  Box,
-  HStack,
-  VStack,
   Text,
-  Divider,
-  Pressable,
-  Icon,
-  HamburgerIcon,
-  Image,
+  Center,
 } from 'native-base';
-import React, {useRef} from 'react';
-import {Button, DrawerLayoutAndroid, StyleSheet, View} from 'react-native';
-import AppBar from '../../components/AppBar';
-// import DashboardHeader from '../../components/DashboardHeader';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+} from 'react-native';
+import GymQrCode from '../../components/GymQrCode/GymQrCode';
+import MembersList from '../../components/MembersList/MembersList';
+import GymQrCodeScanner from '../../components/GymQrCodeScanner/GymQrCodeScanner';
+import WithDrawer from '../../layouts/WithDrawer';
 
-const Drawer = () => (
-  <VStack space="6" my="2" mx="1">
-    <VStack space="2">
-      <HStack space={3} mx="1" my="1">
-        <Avatar
-          bg="green.500"
-          source={{
-            uri: 'https://pbs.twimg.com/profile_images/1188747996843761665/8CiUdKZW_400x400.jpg',
-          }}>
-          SG
-        </Avatar>
-        <VStack>
-          <Text bold color="gray.700">
-            Satish Gupta
-          </Text>
-          <Text fontSize="14" mt="1" color="gray.500" fontWeight="500">
-            8130626713
-          </Text>
-        </VStack>
-      </HStack>
-      <Text fontWeight="300">Membership expires on 31st Dec 2021</Text>
-    </VStack>
-    <VStack divider={<Divider />} space="4">
-      <VStack space="3">
-        <Pressable
-          px="5"
-          py="3"
-          rounded="md"
-          bg={'rgba(6, 182, 212, 0.1)'}
-          onPress={event => {
-            // props.navigation.navigate(name);
-          }}>
-          <HStack space="7" alignItems="center">
-            <HamburgerIcon color={'primary.500'} size="5" />
-            <Text fontWeight="500" color={'primary.500'}>
-              Diet Chart
-            </Text>
-          </HStack>
-        </Pressable>
-        <Pressable
-          px="5"
-          py="3"
-          rounded="md"
-          bg={'transparent'}
-          onPress={event => {
-            // props.navigation.navigate(name);
-          }}>
-          <HStack space="7" alignItems="center">
-            <HamburgerIcon color={'gray.500'} size="5" />
-            <Text fontWeight="500" color={'gray.700'}>
-              Training Session
-            </Text>
-          </HStack>
-        </Pressable>
-      </VStack>
-      <VStack space="5">
-        <Text fontWeight="500" fontSize="14" px="5" color="gray.500">
-          Labels
-        </Text>
-        <VStack space="3">
-          <Pressable px="5" py="3">
-            <HStack space="7" alignItems="center">
-              <HamburgerIcon color="gray.500" size="5" />
-              <Text color="gray.700" fontWeight="500">
-                Family
-              </Text>
-            </HStack>
-          </Pressable>
-          <Pressable px="5" py="2">
-            <HStack space="7" alignItems="center">
-              <HamburgerIcon color="gray.500" size="5" />
-              <Text color="gray.700" fontWeight="500">
-                Friends
-              </Text>
-            </HStack>
-          </Pressable>
-          <Pressable px="5" py="3">
-            <HStack space="7" alignItems="center">
-              <HamburgerIcon color="gray.500" size="5" />
-              <Text fontWeight="500" color="gray.700">
-                Work
-              </Text>
-            </HStack>
-          </Pressable>
-        </VStack>
-      </VStack>
-    </VStack>
-  </VStack>
-);
 const DashboardPage = () => {
-  const drawer = useRef<any>(null);
-  const navigationView = () => (
-    <VStack>
-      <Drawer />
-      {/* <Button
-        title="Close drawer"
-        onPress={() => drawer.current.closeDrawer()}
-      /> */}
-    </VStack>
-  );
+  const [qrCodeText, setQrCodeText] = useState('');
+  const [showScanner, setShowScanner] = useState(false);
+  const onSuccess = (e: any) => {
+    setShowScanner(false);
+    setQrCodeText(e.data);
+  };
   return (
-    <DrawerLayoutAndroid
-      ref={drawer}
-      drawerWidth={300}
-      renderNavigationView={navigationView}>
-      <AppBar drawer={drawer} />
-    </DrawerLayoutAndroid>
+    <WithDrawer setShowScanner={setShowScanner}>
+      <GymQrCodeScanner {...{onSuccess, showScanner, setShowScanner}} />
+      {!showScanner && (
+        <>
+          <Center mt="10">
+            <GymQrCode size={150} gymId={'10'} />
+            <Text>{new Date().toLocaleDateString()}</Text>
+          </Center>
+          <MembersList title="Attendance" />
+        </>
+      )}
+    </WithDrawer>
   );
 };
 
@@ -139,6 +48,31 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 15,
     textAlign: 'center',
+  },
+  centerText: {
+    flex: 1,
+    fontSize: 18,
+    padding: 32,
+    color: '#777',
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    margin: 10,
+    borderRadius: 5,
+    padding: 5,
+  },
+  textBold: {
+    fontWeight: '500',
+    color: '#000',
+  },
+  buttonText: {
+    fontSize: 21,
+    color: 'rgb(0,122,255)',
+  },
+  buttonTouchable: {
+    padding: 16,
   },
 });
 

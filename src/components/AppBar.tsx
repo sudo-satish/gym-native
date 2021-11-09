@@ -8,15 +8,22 @@ import {
   HamburgerIcon,
   Image,
 } from 'native-base';
-import {Pressable} from 'react-native';
+import {Pressable, StyleSheet} from 'react-native';
 
-function AppBar({drawer}: {drawer: any}) {
+
+function AppBar({
+  drawer,
+  setShowScanner,
+}: {
+  drawer: any;
+  setShowScanner: Function;
+}) {
   return (
     <>
       <StatusBar backgroundColor="#3700B3" barStyle="light-content" />
-      <Box safeAreaTop backgroundColor="#6200ee" />
+      <Box safeAreaTop backgroundColor="violet.600" />
       <HStack
-        bg="#6200ee"
+        bg="violet.600"
         px="1"
         py="3"
         justifyContent="space-between"
@@ -31,7 +38,7 @@ function AppBar({drawer}: {drawer: any}) {
           </Text>
         </HStack>
         <HStack space="2">
-          <Pressable>
+          <Pressable onPress={() => setShowScanner(true)}>
             <Image
               size={30}
               mr={5}
