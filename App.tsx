@@ -17,6 +17,8 @@ import DashboardPage from './src/pages/dashboard';
 import MembersPage from './src/pages/members';
 import TrainersPage from './src/pages/trainers';
 import MembershipPage from './src/pages/membership';
+import DailyActivitiesPage from './src/pages/dailyactivities';
+import AddMemberPage from './src/pages/addmember';
 
 const Topics = () => {
   return <Text>Topics</Text>;
@@ -34,6 +36,8 @@ const App = () => {
           <Route path="/members" element={<MembersPage />} />
           <Route path="/trainers" element={<TrainersPage />} />
           <Route path="/member-ship" element={<MembershipPage />} />
+          <Route path="/daily-activities" element={<DailyActivitiesPage />} />
+          <Route path="/add-member" element={<AddMemberPage />} />
         </Routes>
       </NativeRouter>
     </NativeBaseProvider>

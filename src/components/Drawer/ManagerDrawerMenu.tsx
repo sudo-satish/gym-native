@@ -1,12 +1,6 @@
-import {
-  HStack,
-  VStack,
-  Text,
-  Divider,
-  Pressable,
-} from 'native-base';
+import {HStack, VStack, Text, Divider, Pressable} from 'native-base';
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import {useLocation, useNavigate} from 'react-router';
 
 const menuItemList = [
   {
@@ -31,7 +25,7 @@ const manageGymMenuItems = [
   {
     title: 'Daily Activity',
     helpText: 'Manage activities like Yoga, Bhangra',
-    href: '',
+    href: '/daily-activities',
     isSelected: false,
   },
   {
@@ -64,7 +58,7 @@ const ManagerDrawerMenu = () => {
               py="1"
               rounded="md"
               bg={isSelected ? 'rgba(6, 182, 212, 0.1)' : ''}
-              onPress={event => {
+              onPress={_ => {
                 item.href ? navigate(item.href) : null;
               }}>
               <HStack space="7" alignItems="center">
@@ -95,32 +89,33 @@ const ManagerDrawerMenu = () => {
           {manageGymMenuItems.map(item => {
             const isSelected = location.pathname === item.href;
             return (
-            <Pressable
-              px="5"
-              py="1"
-              rounded="md"
-              bg={isSelected ? 'rgba(6, 182, 212, 0.1)' : ''}
-              onPress={event => {
-                item.href ? navigate(item.href) : null;
-              }}>
-              <HStack space="7" alignItems="center">
-                {/* <HamburgerIcon color={'primary.500'} size="5" /> */}
-                <VStack>
-                  <Text
-                    fontWeight="500"
-                    color={isSelected ? 'violet.500' : 'gray.700'}>
-                    {item.title}
-                  </Text>
-                  <Text
-                    fontWeight="300"
-                    fontSize={12}
-                    color={isSelected ? 'violet.500' : 'gray.700'}>
-                    {item.helpText}
-                  </Text>
-                </VStack>
-              </HStack>
-            </Pressable>
-          )})}
+              <Pressable
+                px="5"
+                py="1"
+                rounded="md"
+                bg={isSelected ? 'rgba(6, 182, 212, 0.1)' : ''}
+                onPress={_ => {
+                  item.href ? navigate(item.href) : null;
+                }}>
+                <HStack space="7" alignItems="center">
+                  {/* <HamburgerIcon color={'primary.500'} size="5" /> */}
+                  <VStack>
+                    <Text
+                      fontWeight="500"
+                      color={isSelected ? 'violet.500' : 'gray.700'}>
+                      {item.title}
+                    </Text>
+                    <Text
+                      fontWeight="300"
+                      fontSize={12}
+                      color={isSelected ? 'violet.500' : 'gray.700'}>
+                      {item.helpText}
+                    </Text>
+                  </VStack>
+                </HStack>
+              </Pressable>
+            );
+          })}
         </VStack>
       </VStack>
     </VStack>

@@ -10,6 +10,8 @@ import {
   Spacer,
   Center,
   NativeBaseProvider,
+  Button,
+  Pressable,
 } from 'native-base';
 export const Example = ({title}: {title: string}) => {
   const data = [
@@ -146,15 +148,25 @@ export const Example = ({title}: {title: string}) => {
                   bold>
                   {item.fullName}
                 </Text>
-                <Text
-                  color={
-                    item.membershipExpired ? 'coolGray.400' : 'coolGray.600'
-                  }
-                  _dark={{
-                    color: 'warmGray.200',
-                  }}>
-                  {item.mobileNumber}
-                </Text>
+                <HStack>
+                  <Text
+                    color={
+                      item.membershipExpired ? 'coolGray.400' : 'coolGray.600'
+                    }
+                    _dark={{
+                      color: 'warmGray.200',
+                    }}>
+                    {item.mobileNumber}
+                  </Text>
+                  {item.membershipExpired && (
+                    <Pressable>
+                      <Text ml="5" mt="-3" color="red.400">
+                        Send Reminder
+                      </Text>
+                    </Pressable>
+                  )}
+                </HStack>
+
                 <Text
                   color={
                     item.membershipExpired ? 'coolGray.300' : 'coolGray.500'
@@ -191,7 +203,7 @@ const MembersList = ({title}: {title: string}) => {
   return (
     <NativeBaseProvider>
       <Center flex="1">
-        <Example title={title}/>
+        <Example title={title} />
       </Center>
     </NativeBaseProvider>
   );

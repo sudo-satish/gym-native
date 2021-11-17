@@ -8,15 +8,16 @@ import {
   HamburgerIcon,
   Image,
 } from 'native-base';
-import {Pressable, StyleSheet} from 'react-native';
-
+import {Pressable} from 'react-native';
 
 function AppBar({
   drawer,
   setShowScanner,
+  hideScanIcon = false,
 }: {
   drawer: any;
   setShowScanner: Function;
+  hideScanIcon?: boolean;
 }) {
   return (
     <>
@@ -37,19 +38,21 @@ function AppBar({
             Hype GYM
           </Text>
         </HStack>
-        <HStack space="2">
-          <Pressable onPress={() => setShowScanner(true)}>
-            <Image
-              size={30}
-              mr={5}
-              alt="fallback text"
-              source={require('../assets/images/qr.png')}
-              fallbackSource={{
-                uri: 'https://www.w3schools.com/css/img_lights.jpg',
-              }}
-            />
-          </Pressable>
-        </HStack>
+        {!hideScanIcon && (
+          <HStack space="2">
+            <Pressable onPress={() => setShowScanner(true)}>
+              <Image
+                size={30}
+                mr={5}
+                alt="fallback text"
+                source={require('../assets/images/qr.png')}
+                fallbackSource={{
+                  uri: 'https://www.w3schools.com/css/img_lights.jpg',
+                }}
+              />
+            </Pressable>
+          </HStack>
+        )}
       </HStack>
     </>
   );
