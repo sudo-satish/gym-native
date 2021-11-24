@@ -35,7 +35,10 @@ import FeedbackPage from './src/pages/feedback';
 import AddTrainerPage from './src/pages/addtrainer';
 import Drawer from './src/components/Drawer/Drawer';
 import {DrawerLayoutAndroid} from 'react-native';
+import LoginPage from './src/pages/login';
 
+// const initialRoute = 'Login';
+const initialRoute = 'Dashboard';
 const Stack = createNativeStackNavigator();
 const App = () => {
   const drawer = useRef<any>(null);
@@ -53,7 +56,7 @@ const App = () => {
           drawerWidth={300}
           renderNavigationView={navigationView}>
           <Stack.Navigator
-            initialRouteName="Dashboard"
+            initialRouteName={initialRoute}
             screenOptions={{
               headerStyle: {
                 backgroundColor: '#7c3aed',
@@ -63,6 +66,11 @@ const App = () => {
                 fontWeight: 'bold',
               },
             }}>
+            <Stack.Screen
+              name="Login"
+              component={LoginPage}
+              options={{headerShown: false}}
+            />
             <Stack.Screen
               name="Dashboard"
               component={props => (
