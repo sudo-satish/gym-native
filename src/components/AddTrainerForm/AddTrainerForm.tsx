@@ -1,9 +1,7 @@
 import React from 'react';
-import {Avatar, Button, Center, ScrollView, Stack} from 'native-base';
-import {useNavigation} from '@react-navigation/native';
+import {Avatar, Button, Center, Radio, ScrollView, Stack} from 'native-base';
 import InputField from '../../core/InputField/InputField';
-const AddMemberForm = () => {
-  const navigation = useNavigation();
+const AddTrainerForm = () => {
   return (
     <Stack
       mt={3}
@@ -20,16 +18,27 @@ const AddMemberForm = () => {
         <InputField name="lastName" label="Last Name" />
         <InputField name="mobile" label="Mobile Number" />
         <InputField name="age" label="Age" keyboardType="number-pad" />
+        <Radio.Group
+          defaultValue="1"
+          name="myRadioGroup"
+          accessibilityLabel="Pick your favorite number">
+          <Radio value="1" my={1}>
+            Male
+          </Radio>
+          <Radio value="2" my={1}>
+            Female
+          </Radio>
+          <Radio value="3" my={1}>
+            Other
+          </Radio>
+        </Radio.Group>
 
-        <Button
-          size="sm"
-          variant="subtle"
-          onPress={() => navigation.navigate('AddMembership' as any)}>
-          Next
+        <Button size="sm" variant="subtle">
+          Create
         </Button>
       </ScrollView>
     </Stack>
   );
 };
 
-export default AddMemberForm;
+export default AddTrainerForm;

@@ -1,18 +1,20 @@
 import {Fab, AddIcon} from 'native-base';
 import React from 'react';
-import {useNavigate} from 'react-router';
 import MembersList from '../../components/MembersList/MembersList';
 import WithDrawer from '../../layouts/WithDrawer';
+import {useNavigation} from '@react-navigation/native';
 
 const MembersPage = () => {
-  let navigate = useNavigate();
+  const navigation = useNavigation();
   return (
     <WithDrawer hideAppBar>
       <MembersList title="Members" />
       <Fab
         position="absolute"
         size="sm"
-        onPress={() => navigate('/add-member')}
+        onPress={() => {
+          navigation.navigate('AddMember' as any);
+        }}
         bgColor="violet.600"
         icon={<AddIcon color="white" size="sm" />}
       />

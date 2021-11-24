@@ -1,13 +1,13 @@
 import {Center} from 'native-base';
 import React from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
-import AddMemberForm from '../../components/AddMemberForm/AddMemberForm';
+import MembershipForm from '../../components/MembershipForm/MembershipForm';
 
-const AddMemberPage = () => {
+const AddMembershipPage = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Center p={3}>
-        <AddMemberForm />
+        <MembershipForm />
       </Center>
     </SafeAreaView>
   );
@@ -19,4 +19,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddMemberPage;
+export default AddMembershipPage;

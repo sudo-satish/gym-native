@@ -1,12 +1,10 @@
 import React from 'react';
 import {VStack, FormControl, Input, Center, Button} from 'native-base';
-import {useNavigate} from 'react-router-native';
 
 const BuildingAFormExample = () => {
   const [formData, setData] = React.useState<any>({});
   const [errors, setErrors] = React.useState<any>({});
   const [otpSent, setOtpSent] = React.useState(false);
-  let navigate = useNavigate();
 
   const validate = () => {
     if (formData?.mobileNumber === undefined) {
@@ -35,7 +33,7 @@ const BuildingAFormExample = () => {
   };
 
   const onVerifyOtp = () => {
-    navigate('/dashboard');
+    // navigate('/dashboard');
   };
 
   return (

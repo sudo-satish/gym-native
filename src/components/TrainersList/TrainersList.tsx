@@ -2,17 +2,15 @@ import React from 'react';
 import {
   Box,
   FlatList,
-  Heading,
   Avatar,
   HStack,
   VStack,
   Text,
   Spacer,
   Center,
-  NativeBaseProvider,
   Pressable,
 } from 'native-base';
-export const Example = ({title}: {title: string}) => {
+export const Example = () => {
   const data = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -20,7 +18,6 @@ export const Example = ({title}: {title: string}) => {
       fullName: 'Aafreen Khan',
       timeStamp: '12:47 PM',
       recentText: 'Good Day!',
-      membershipExpired: true,
       avatarUrl:
         'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
     },
@@ -49,60 +46,6 @@ export const Example = ({title}: {title: string}) => {
       mobileNumber: '8130626713',
       avatarUrl:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU',
-    },
-    {
-      id: '28694a0f-3da1-471f-bd96-142456e29d72',
-      fullName: 'Kiara',
-      timeStamp: '12:47 PM',
-      recentText: 'I will call today.',
-      mobileNumber: '8130626713',
-      membershipExpired: true,
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
-    },
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      fullName: 'Aafreen Khan',
-      timeStamp: '12:47 PM',
-      recentText: 'Good Day!',
-      mobileNumber: '8130626713',
-      avatarUrl:
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      fullName: 'Sujitha Mathur',
-      timeStamp: '11:11 PM',
-      recentText: 'Cheer up, there!',
-      mobileNumber: '8130626713',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEaZqT3fHeNrPGcnjLLX1v_W4mvBlgpwxnA&usqp=CAU',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      fullName: 'Anci Barroco',
-      timeStamp: '6:22 PM',
-      mobileNumber: '8130626713',
-      recentText: 'Good Day!',
-      avatarUrl: 'https://miro.medium.com/max/1400/0*0fClPmIScV5pTLoE.jpg',
-    },
-    {
-      id: '68694a0f-3da1-431f-bd56-142371e29d72',
-      fullName: 'Aniket Kumar',
-      timeStamp: '8:56 PM',
-      recentText: 'All the best',
-      mobileNumber: '8130626713',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU',
-    },
-    {
-      id: '28694a0f-3da1-471f-bd96-142456e29d72',
-      fullName: 'Kiara',
-      timeStamp: '12:47 PM',
-      recentText: 'I will call today.',
-      mobileNumber: '8130626713',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
     },
   ];
   return (
@@ -113,9 +56,6 @@ export const Example = ({title}: {title: string}) => {
         base: '100%',
         md: '25%',
       }}>
-      <Heading fontSize="xl" p="4" pb="3">
-        {title}
-      </Heading>
       <FlatList
         data={data}
         renderItem={({item}) => (
@@ -141,17 +81,13 @@ export const Example = ({title}: {title: string}) => {
                   _dark={{
                     color: 'warmGray.50',
                   }}
-                  color={
-                    item.membershipExpired ? 'coolGray.400' : 'coolGray.800'
-                  }
+                  color={'coolGray.800'}
                   bold>
                   {item.fullName}
                 </Text>
                 <HStack>
                   <Text
-                    color={
-                      item.membershipExpired ? 'coolGray.400' : 'coolGray.600'
-                    }
+                    color={'coolGray.600'}
                     _dark={{
                       color: 'warmGray.200',
                     }}>
@@ -165,19 +101,6 @@ export const Example = ({title}: {title: string}) => {
                     </Pressable>
                   )}
                 </HStack>
-
-                <Text
-                  color={
-                    item.membershipExpired ? 'coolGray.300' : 'coolGray.500'
-                  }
-                  fontSize="12"
-                  _dark={{
-                    color: 'warmGray.200',
-                  }}>
-                  {item.membershipExpired
-                    ? 'Membership expired on 31st Dec 2021'
-                    : 'Membership expires on 31st Dec 2021'}
-                </Text>
               </VStack>
               <Spacer />
               <Text
@@ -198,14 +121,12 @@ export const Example = ({title}: {title: string}) => {
   );
 };
 
-const MembersList = ({title}: {title: string}) => {
+const TrainersList = () => {
   return (
-    <NativeBaseProvider>
-      <Center flex="1">
-        <Example title={title} />
-      </Center>
-    </NativeBaseProvider>
+    <Center flex="1">
+      <Example />
+    </Center>
   );
 };
 
-export default MembersList;
+export default TrainersList;
