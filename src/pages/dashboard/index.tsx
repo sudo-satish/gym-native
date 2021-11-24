@@ -1,20 +1,17 @@
+import React from 'react';
 import {Text, Center} from 'native-base';
-import React, {useState} from 'react';
-// import {StyleSheet} from 'react-native';
 import GymQrCode from '../../components/GymQrCode/GymQrCode';
 import MembersList from '../../components/MembersList/MembersList';
 import GymQrCodeScanner from '../../components/GymQrCodeScanner/GymQrCodeScanner';
-import WithDrawer from '../../layouts/WithDrawer';
 
-const DashboardPage = () => {
+const DashboardPage = ({showScanner, setShowScanner}: any) => {
   // const [qrCodeText, setQrCodeText] = useState('');
-  const [showScanner, setShowScanner] = useState(false);
   const onSuccess = (_: any) => {
     setShowScanner(false);
     // setQrCodeText(e.data);
   };
   return (
-    <WithDrawer setShowScanner={setShowScanner}>
+    <>
       <GymQrCodeScanner {...{onSuccess, showScanner, setShowScanner}} />
       {!showScanner && (
         <>
@@ -25,7 +22,7 @@ const DashboardPage = () => {
           <MembersList title="Attendance" />
         </>
       )}
-    </WithDrawer>
+    </>
   );
 };
 

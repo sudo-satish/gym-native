@@ -1,22 +1,13 @@
-import {
-  Avatar,
-  HStack,
-  VStack,
-  Text,
-  Divider,
-  Pressable,
-  HamburgerIcon,
-} from 'native-base';
+import {Avatar, HStack, VStack, Text} from 'native-base';
 import React, {useState} from 'react';
 import QRCode from 'react-native-qrcode-generator';
 import ManagerDrawerMenu from './ManagerDrawerMenu';
 import MemberDrawerMenu from './MemberDrawerMenu';
 import MembershipDetail from './MembershipDetail';
 
-
-const Drawer = () => {
-  const [isMember, setIsMember] = useState(false);
-  const [isManager, setIsManager] = useState(true);
+const Drawer = ({drawer}: any) => {
+  const [isMember] = useState(false);
+  const [isManager] = useState(true);
   return (
     <VStack space="6" my="2" mx="1">
       <VStack mx="3" my="1" space="2">
@@ -37,8 +28,9 @@ const Drawer = () => {
         {isMember && <MembershipDetail />}
       </VStack>
       {isMember && <MemberDrawerMenu />}
-      {isManager && <ManagerDrawerMenu />}
+      {isManager && <ManagerDrawerMenu drawer={drawer} />}
     </VStack>
-  );};
+  );
+};
 
 export default Drawer;

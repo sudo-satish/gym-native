@@ -12,13 +12,13 @@ import {
   Icon,
   Pressable,
   ScrollView,
+  Stack,
   Text,
   useDisclose,
   View,
   VStack,
 } from 'native-base';
 import dayjs from 'dayjs';
-import WithDrawer from '../../layouts/WithDrawer';
 import {Path} from 'react-native-svg';
 
 const days = ['Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -107,7 +107,7 @@ const DailyActivitiesPage = () => {
   const [selectedActivity, setSelectedActivity] = useState(activities[0]);
   const {isOpen, onOpen, onClose} = useDisclose();
   return (
-    <WithDrawer hideScanIcon>
+    <Stack>
       <View m="3">
         <ScrollView horizontal persistentScrollbar>
           {days.map((name, index) => (
@@ -157,7 +157,7 @@ const DailyActivitiesPage = () => {
       <ActivityDetail
         {...{isOpen, onOpen, onClose, activity: selectedActivity}}
       />
-    </WithDrawer>
+    </Stack>
   );
 };
 

@@ -26,13 +26,13 @@ const manageGymMenuItems = [
   {
     title: 'Daily Activity',
     helpText: 'Manage activities like Yoga, Bhangra',
-    href: '/daily-activities',
+    href: 'DailyActivities',
     isSelected: false,
   },
   {
     title: 'Membership Plans',
     helpText: 'Manage membership plans',
-    href: '/member-ship',
+    href: 'MembershipPlans',
   },
   // {
   //   title: 'Statistics',
@@ -45,17 +45,10 @@ const manageGymMenuItems = [
     href: '',
   },
 ];
-const ManagerDrawerMenu = () => {
+const ManagerDrawerMenu = ({drawer}: any) => {
   const navigation = useNavigation();
-  // let navigate = useNavigate();
-  // let location = useLocation();
   return (
-    <ScrollView
-      _contentContainerStyle={{
-        px: '20px',
-        mb: '4',
-        minW: '72',
-      }}>
+    <ScrollView>
       <VStack divider={<Divider />} space="4" flex="1" mb={20}>
         <VStack space="3">
           {menuItemList.map(item => {
@@ -67,7 +60,8 @@ const ManagerDrawerMenu = () => {
                 rounded="md"
                 bg={isSelected ? 'rgba(6, 182, 212, 0.1)' : ''}
                 onPress={_ => {
-                  item.href ? navigation.navigate(item.href) : null;
+                  item.href ? navigation.navigate(item.href as any) : null;
+                  drawer?.current?.closeDrawer();
                 }}>
                 <HStack space="7" alignItems="center">
                   {/* <HamburgerIcon color={'primary.500'} size="5" /> */}
@@ -103,7 +97,8 @@ const ManagerDrawerMenu = () => {
                   rounded="md"
                   bg={isSelected ? 'rgba(6, 182, 212, 0.1)' : ''}
                   onPress={_ => {
-                    item.href ? navigation.navigate(item.href) : null;
+                    item.href ? navigation.navigate(item.href as any) : null;
+                    drawer?.current?.closeDrawer();
                   }}>
                   <HStack space="7" alignItems="center">
                     {/* <HamburgerIcon color={'primary.500'} size="5" /> */}
@@ -131,7 +126,8 @@ const ManagerDrawerMenu = () => {
           py="1"
           rounded="md"
           onPress={_ => {
-            navigation.navigate('ContactUs');
+            navigation.navigate('ContactUs' as any);
+            drawer?.current?.closeDrawer();
           }}>
           <HStack space="7" alignItems="center">
             {/* <HamburgerIcon color={'primary.500'} size="5" /> */}
@@ -150,7 +146,8 @@ const ManagerDrawerMenu = () => {
           py="1"
           rounded="md"
           onPress={_ => {
-            navigation.navigate('Feedback');
+            navigation.navigate('Feedback' as any);
+            drawer?.current?.closeDrawer();
           }}>
           <HStack space="7" alignItems="center">
             {/* <HamburgerIcon color={'primary.500'} size="5" /> */}
