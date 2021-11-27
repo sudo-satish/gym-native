@@ -10,6 +10,7 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {
+  Center,
   HamburgerIcon,
   HStack,
   IconButton,
@@ -45,13 +46,17 @@ import LoginPage from './src/pages/login';
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import {PERSISTENCE_KEY} from './src/store/constants';
 
-const initialRoute = 'Login';
-// const initialRoute = 'Dashboard';
+// const initialRoute = 'Login';
+const initialRoute = 'Dashboard';
 const Stack = createNativeStackNavigator();
+
 const App = () => {
   const drawer = useRef<any>(null);
   const [isReady, setIsReady] = React.useState(__DEV__ ? false : true);
+  const [isLoadingInitialState, setIsLoadingInitialState] =
+    React.useState(true);
   const [initialState, setInitialState] = React.useState();
+  const [isSignedIn, setIsSignedIn] = React.useState(false);
 
   const {getItem: getUserRole} = useAsyncStorage('userRole');
   const {getItem: getAccessToken} = useAsyncStorage('accessToken');
@@ -99,12 +104,134 @@ const App = () => {
 
     getAccessToken().then(accessToken => {
       console.log(accessToken);
+      if (accessToken) {
+        setIsSignedIn(true);
+        setIsLoadingInitialState(false);
+      }
     });
   }, [getUserRole, getAccessToken]);
 
   if (!isReady) {
     return <ActivityIndicator />;
   }
+  if (isLoadingInitialState) {
+    return <ActivityIndicator />;
+  }
+
+  const ManagerPanel = (
+    <>
+      <Stack.Screen
+        name="Dashboard"
+        component={props => (
+          <DashboardPage {...props} {...{showScanner, setShowScanner}} />
+        )}
+        options={{
+          headerTitle: () => (
+            <HStack space="4" alignItems="center">
+              <IconButton
+                icon={<HamburgerIcon name="menu" color="white" />}
+                onPress={() => drawer.current.openDrawer()}
+              />
+              <Text color="white" fontSize="20" fontWeight="bold">
+                Hype GYM
+              </Text>
+            </HStack>
+          ),
+          headerRight: () => (
+            <Pressable onPress={() => setShowScanner(true)}>
+              <Image
+                size={30}
+                mr={5}
+                alt="fallback text"
+                source={require('./src/assets/images/qr.png')}
+                fallbackSource={{
+                  uri: 'https://www.w3schools.com/css/img_lights.jpg',
+                }}
+              />
+            </Pressable>
+          ),
+        }}
+      />
+      <Stack.Screen name="Members" component={MembersPage} />
+      <Stack.Screen name="Trainers" component={TrainersPage} />
+      <Stack.Screen
+        name="AddMember"
+        options={{title: 'Add Member'}}
+        component={AddMemberPage}
+      />
+      <Stack.Screen
+        name="AddMembership"
+        options={{title: 'Membership Details'}}
+        component={AddMembershipPage}
+      />
+      <Stack.Screen
+        name="ContactUs"
+        options={{title: 'Contact Us'}}
+        component={ContactUsPage}
+      />
+      <Stack.Screen
+        name="Feedback"
+        options={{title: 'Feedback'}}
+        component={FeedbackPage}
+      />
+      <Stack.Screen
+        name="AddTrainer"
+        options={{title: 'Add Trainer'}}
+        component={AddTrainerPage}
+      />
+      <Stack.Screen
+        name="DailyActivities"
+        options={{title: 'Daily Activities'}}
+        component={DailyActivitiesPage}
+      />
+      <Stack.Screen
+        name="MembershipPlans"
+        options={{title: 'Membership Plans'}}
+        component={MembershipPage}
+      />
+    </>
+  );
+
+  const MemberPanel = (
+    <>
+      <Stack.Screen
+        name="Dashboard"
+        component={props => <Center>Members Panel</Center>}
+        options={{
+          headerTitle: () => (
+            <HStack space="4" alignItems="center">
+              <IconButton
+                icon={<HamburgerIcon name="menu" color="white" />}
+                onPress={() => drawer.current.openDrawer()}
+              />
+              <Text color="white" fontSize="20" fontWeight="bold">
+                Hype GYM
+              </Text>
+            </HStack>
+          ),
+          headerRight: () => (
+            <Pressable onPress={() => setShowScanner(true)}>
+              <Image
+                size={30}
+                mr={5}
+                alt="fallback text"
+                source={require('./src/assets/images/qr.png')}
+                fallbackSource={{
+                  uri: 'https://www.w3schools.com/css/img_lights.jpg',
+                }}
+              />
+            </Pressable>
+          ),
+        }}
+      />
+    </>
+  );
+
+  const getPanel = () => {
+    // Return panel based on Role
+    // return MemberPanel;
+    return ManagerPanel;
+  };
 
   return (
     <NativeBaseProvider>
@@ -128,80 +255,15 @@ const App = () => {
                 fontWeight: 'bold',
               },
             }}>
-            <Stack.Screen
-              name="Login"
-              component={LoginPage}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="Dashboard"
-              component={props => (
-                <DashboardPage {...props} {...{showScanner, setShowScanner}} />
-              )}
-              options={{
-                headerTitle: () => (
-                  <HStack space="4" alignItems="center">
-                    <IconButton
-                      icon={<HamburgerIcon name="menu" color="white" />}
-                      onPress={() => drawer.current.openDrawer()}
-                    />
-                    <Text color="white" fontSize="20" fontWeight="bold">
-                      Hype GYM
-                    </Text>
-                  </HStack>
-                ),
-                headerRight: () => (
-                  <Pressable onPress={() => setShowScanner(true)}>
-                    <Image
-                      size={30}
-                      mr={5}
-                      alt="fallback text"
-                      source={require('./src/assets/images/qr.png')}
-                      fallbackSource={{
-                        uri: 'https://www.w3schools.com/css/img_lights.jpg',
-                      }}
-                    />
-                  </Pressable>
-                ),
-              }}
-            />
-            <Stack.Screen name="Members" component={MembersPage} />
-            <Stack.Screen name="Trainers" component={TrainersPage} />
-            <Stack.Screen
-              name="AddMember"
-              options={{title: 'Add Member'}}
-              component={AddMemberPage}
-            />
-            <Stack.Screen
-              name="AddMembership"
-              options={{title: 'Membership Details'}}
-              component={AddMembershipPage}
-            />
-            <Stack.Screen
-              name="ContactUs"
-              options={{title: 'Contact Us'}}
-              component={ContactUsPage}
-            />
-            <Stack.Screen
-              name="Feedback"
-              options={{title: 'Feedback'}}
-              component={FeedbackPage}
-            />
-            <Stack.Screen
-              name="AddTrainer"
-              options={{title: 'Add Trainer'}}
-              component={AddTrainerPage}
-            />
-            <Stack.Screen
-              name="DailyActivities"
-              options={{title: 'Daily Activities'}}
-              component={DailyActivitiesPage}
-            />
-            <Stack.Screen
-              name="MembershipPlans"
-              options={{title: 'Membership Plans'}}
-              component={MembershipPage}
-            />
+            {isSignedIn ? (
+              getPanel()
+            ) : (
+              <Stack.Screen
+                name="Login"
+                component={LoginPage}
+                options={{headerShown: false}}
+              />
+            )}
           </Stack.Navigator>
         </DrawerLayoutAndroid>
       </NavigationContainer>

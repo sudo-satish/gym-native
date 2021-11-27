@@ -1,5 +1,4 @@
 import {
-  Avatar,
   HStack,
   VStack,
   Text,
@@ -7,8 +6,7 @@ import {
   Pressable,
   HamburgerIcon,
 } from 'native-base';
-import React, {useState} from 'react';
-import QRCode from 'react-native-qrcode-generator';
+import React from 'react';
 
 const MemberDrawerMenu = () => {
   return (
