@@ -36,12 +36,12 @@ const manageGymMenuItems = [
   {
     title: 'Statistics',
     helpText: 'Statistics like new members count of this month',
-    href: '',
+    href: 'StatisticsPage',
   },
   {
     title: 'Reel',
     helpText: 'Share reels to engage members',
-    href: '',
+    href: 'ReelsPage',
   },
   {
     title: 'About Branch',
@@ -96,6 +96,7 @@ const ManagerDrawerMenu = ({drawer}: any) => {
             return (
               <Pressable
                 px="5"
+                key={item.title}
                 py="1"
                 rounded="md"
                 bg={isSelected ? 'rgba(6, 182, 212, 0.1)' : ''}

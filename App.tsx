@@ -45,6 +45,8 @@ import {
 import LoginPage from './src/pages/login';
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import {PERSISTENCE_KEY} from './src/store/constants';
+import StatisticsPage from './src/pages/statics';
+import ReelsPage from './src/pages/reels';
 
 // const initialRoute = 'Login';
 const initialRoute = 'Dashboard';
@@ -188,6 +190,16 @@ const App = () => {
         name="MembershipPlans"
         options={{title: 'Membership Plans'}}
         component={MembershipPage}
+      />
+      <Stack.Screen
+        name="StatisticsPage"
+        options={{title: 'Statistic'}}
+        component={StatisticsPage}
+      />
+      <Stack.Screen
+        name="ReelsPage"
+        options={{title: 'Reels', headerShown: false}}
+        component={ReelsPage}
       />
     </>
   );
