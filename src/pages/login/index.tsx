@@ -1,5 +1,7 @@
 import React from 'react';
 import {VStack, FormControl, Input, Center, Button} from 'native-base';
+import ApiService from '../../services/ApiService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BuildingAFormExample = () => {
   const [formData, setData] = React.useState<any>({});
@@ -29,11 +31,29 @@ const BuildingAFormExample = () => {
   };
 
   const onSubmit = () => {
-    validate() ? setOtpSent(true) : console.log('Validation Failed');
+    if (validate()) {
+      ApiService.post('/auth/send-otp', formData)
+        .then(response => {
+          console.log(response.data);
+          setOtpSent(true);
+        })
+        .catch(error => console.error(error.response.data.message));
+    }
   };
 
   const onVerifyOtp = () => {
-    // navigate('/dashboard');
+    ApiService.post('/auth/verify-otp', formData)
+      .then(response => {
+        const {
+          data: {accessToken, user, userRole},
+        } = response;
+        console.log({accessToken, user, userRole});
+        AsyncStorage.setItem('accessToken', accessToken);
+        AsyncStorage.setItem('user', JSON.stringify(user));
+        AsyncStorage.setItem('userRole', JSON.stringify(userRole));
+        setOtpSent(true);
+      })
+      .catch(error => console.error(error.response.data.message));
   };
 
   return (
@@ -82,6 +102,10 @@ const BuildingAFormExample = () => {
           Send OTP
         </Button>
       )}
+
+      <Button mt="5" onPress={() => setOtpSent(false)}>
+        Cancel
+      </Button>
     </VStack>
   );
 };

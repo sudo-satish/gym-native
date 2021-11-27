@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   HamburgerIcon,
   HStack,
@@ -21,6 +21,7 @@ import {
 import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import LoginPage from './src/pages/login';
 import DashboardPage from './src/pages/dashboard';
@@ -34,23 +35,84 @@ import ContactUsPage from './src/pages/contactus';
 import FeedbackPage from './src/pages/feedback';
 import AddTrainerPage from './src/pages/addtrainer';
 import Drawer from './src/components/Drawer/Drawer';
-import {DrawerLayoutAndroid} from 'react-native';
+import {
+  ActivityIndicator,
+  DrawerLayoutAndroid,
+  Linking,
+  Platform,
+} from 'react-native';
 import LoginPage from './src/pages/login';
+import {useAsyncStorage} from '@react-native-async-storage/async-storage';
+import {PERSISTENCE_KEY} from './src/store/constants';
 
-// const initialRoute = 'Login';
-const initialRoute = 'Dashboard';
+const initialRoute = 'Login';
+// const initialRoute = 'Dashboard';
 const Stack = createNativeStackNavigator();
 const App = () => {
   const drawer = useRef<any>(null);
+  const [isReady, setIsReady] = React.useState(__DEV__ ? false : true);
+  const [initialState, setInitialState] = React.useState();
+
+  const {getItem: getUserRole} = useAsyncStorage('userRole');
+  const {getItem: getAccessToken} = useAsyncStorage('accessToken');
   const [showScanner, setShowScanner] = useState(false);
+
+  React.useEffect(() => {
+    const restoreState = async () => {
+      try {
+        const initialUrl = await Linking.getInitialURL();
+
+        if (Platform.OS !== 'web' && initialUrl == null) {
+          // Only restore state if there's no deep link and we're not on web
+          const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
+          const state = savedStateString
+            ? JSON.parse(savedStateString)
+            : undefined;
+
+          if (state !== undefined) {
+            setInitialState(state);
+          }
+        }
+      } finally {
+        setIsReady(true);
+      }
+    };
+
+    if (!isReady) {
+      restoreState();
+    }
+  }, [isReady]);
+
   const navigationView = () => (
     <VStack>
       <Drawer drawer={drawer} />
     </VStack>
   );
+
+  useEffect(() => {
+    getUserRole().then(userRole => {
+      if (userRole) {
+        JSON.parse(userRole);
+        console.log({userRole});
+      }
+    });
+
+    getAccessToken().then(accessToken => {
+      console.log(accessToken);
+    });
+  }, [getUserRole, getAccessToken]);
+
+  if (!isReady) {
+    return <ActivityIndicator />;
+  }
+
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
+      <NavigationContainer
+        initialState={initialState}
+        onStateChange={state =>
+          AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+        }>
         <DrawerLayoutAndroid
           ref={drawer}
           drawerWidth={300}
@@ -142,20 +204,6 @@ const App = () => {
             />
           </Stack.Navigator>
         </DrawerLayoutAndroid>
-
-        {/* <NativeRouter> */}
-        {/* <Routes> */}
-        {/* <Route path="/" element={<LoginPage />} /> */}
-        {/* <Route path="/" element={<DashboardPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/topics" element={<Topics />} />
-            <Route path="/members" element={<MembersPage />} />
-            <Route path="/trainers" element={<TrainersPage />} />
-            <Route path="/member-ship" element={<MembershipPage />} />
-            <Route path="/daily-activities" element={<DailyActivitiesPage />} />
-            <Route path="/add-member" element={<AddMemberPage />} /> */}
-        {/* </Routes> */}
-        {/* </NativeRouter> */}
       </NavigationContainer>
     </NativeBaseProvider>
   );
